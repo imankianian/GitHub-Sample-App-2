@@ -18,3 +18,7 @@ sealed interface UiState {
     data class Success(val gitHubUser: GitHubUser): UiState
     data class Error(val message: String?): UiState
 }
+
+sealed class Routes(val route: String) {
+    object Home: Routes("home")
+}
