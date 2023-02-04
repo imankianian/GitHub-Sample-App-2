@@ -12,3 +12,9 @@ sealed interface UserProfileResult {
     data class Success(val gitHubUser: GitHubUser): UserProfileResult
     data class Error(val message: String?): UserProfileResult
 }
+
+sealed interface UiState {
+    object Loading: UiState
+    data class Success(val gitHubUser: GitHubUser): UiState
+    data class Error(val message: String?): UiState
+}
