@@ -7,3 +7,8 @@ sealed interface NetworkResult {
     data class Error(val code: Int?, val message: String?): NetworkResult
     data class Failure(val message: String?): NetworkResult
 }
+
+sealed interface UserProfileResult {
+    data class Success(val gitHubUser: GitHubUser): UserProfileResult
+    data class Error(val message: String?): UserProfileResult
+}
