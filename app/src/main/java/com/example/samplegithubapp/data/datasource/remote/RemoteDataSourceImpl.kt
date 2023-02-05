@@ -22,4 +22,17 @@ class RemoteDataSourceImpl @Inject constructor(private val gitHubApi: GitHubApi,
             NetworkResult.Failure(exception.message)
         }
     }
+
+    override suspend fun getUserRepos(login: String) = withContext(dispatcher) {
+        val response = gitHubApi.getUserRepos(login)
+        return@withContext try {
+            if (response != null && response.isSuccessful) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                NetworkResult.Error(response.code(), response.message())
+            }
+        } catch (exception: Exception) {
+            NetworkResult.Failure(exception.message)
+        }
+    }
 }
