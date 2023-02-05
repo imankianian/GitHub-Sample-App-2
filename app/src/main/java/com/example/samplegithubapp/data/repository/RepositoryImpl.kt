@@ -1,8 +1,10 @@
 package com.example.samplegithubapp.data.repository
 
 import com.example.samplegithubapp.NetworkResult
-import com.example.samplegithubapp.UserProfileResult
+import com.example.samplegithubapp.RepositoryResult
 import com.example.samplegithubapp.data.datasource.remote.RemoteDataSource
+import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 import com.example.samplegithubapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -13,14 +15,28 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
 
     override suspend fun getUserProfile(login: String) = withContext(dispatcher) {
         when (val result = remoteDataSource.getUserProfile(login)) {
-            is NetworkResult.Success -> {
-                return@withContext UserProfileResult.Success(result.gitHubUser)
+            is NetworkResult.Success<*> -> {
+                return@withContext RepositoryResult.Success(result.data as GitHubUser)
             }
             is NetworkResult.Error -> {
-                return@withContext UserProfileResult.Error("${result.code}, ${result.message}")
+                return@withContext RepositoryResult.Error("${result.code}, ${result.message}")
             }
             is NetworkResult.Failure -> {
-                return@withContext UserProfileResult.Error(result.message)
+                return@withContext RepositoryResult.Error(result.message)
+            }
+        }
+    }
+
+    override suspend fun getUserRepos(login: String) = withContext(dispatcher) {
+        when (val result = remoteDataSource.getUserRepos(login)) {
+            is NetworkResult.Success<*> -> {
+                return@withContext RepositoryResult.Success(result.data as List<RemoteGitHubRepo>)
+            }
+            is NetworkResult.Error -> {
+                return@withContext RepositoryResult.Error("${result.code}, ${result.message}")
+            }
+            is NetworkResult.Failure -> {
+                return@withContext RepositoryResult.Error(result.message)
             }
         }
     }

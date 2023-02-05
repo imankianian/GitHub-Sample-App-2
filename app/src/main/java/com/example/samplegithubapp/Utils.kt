@@ -9,9 +9,9 @@ sealed interface NetworkResult {
     data class Failure(val message: String?): NetworkResult
 }
 
-sealed interface UserProfileResult {
-    data class Success(val gitHubUser: GitHubUser): UserProfileResult
-    data class Error(val message: String?): UserProfileResult
+sealed interface RepositoryResult {
+    data class Success<T: Any>(val data: T): RepositoryResult
+    data class Error(val message: String?): RepositoryResult
 }
 
 sealed interface UiState {
