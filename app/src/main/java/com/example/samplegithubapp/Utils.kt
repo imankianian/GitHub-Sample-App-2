@@ -2,6 +2,7 @@ package com.example.samplegithubapp
 
 import androidx.compose.runtime.Composable
 import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 
 sealed interface NetworkResult {
     data class Success<T: Any>(val data: T): NetworkResult
@@ -16,7 +17,7 @@ sealed interface RepositoryResult {
 
 sealed interface UiState {
     object Loading: UiState
-    data class Success(val gitHubUser: GitHubUser): UiState
+    data class Success<T: Any>(val data: T): UiState
     data class Error(val message: String?): UiState
 }
 

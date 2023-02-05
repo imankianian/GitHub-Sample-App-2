@@ -22,8 +22,8 @@ fun HomeScreen(uiState: StateFlow<UiState>) {
         is UiState.Loading -> {
 
         }
-        is UiState.Success -> {
-            Pager(gitHubUser = state.gitHubUser)
+        is UiState.Success<*> -> {
+            Pager(gitHubUser = state.data as GitHubUser)
         }
         is UiState.Error -> {
 
