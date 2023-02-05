@@ -1,5 +1,6 @@
 package com.example.samplegithubapp
 
+import androidx.compose.runtime.Composable
 import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
 
 sealed interface NetworkResult {
@@ -22,3 +23,9 @@ sealed interface UiState {
 sealed class Routes(val route: String) {
     object Home: Routes("home")
 }
+
+data class TabItem(
+    val title: String,
+    val icon: Int,
+    val screen: @Composable () -> Unit
+)

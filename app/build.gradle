@@ -54,6 +54,8 @@ kapt {
 
 dependencies {
 
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
     implementation 'io.coil-kt:coil-compose:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha05'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
