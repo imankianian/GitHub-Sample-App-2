@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = Routes.Home.route) {
                         composable(route = Routes.Home.route) {
-                            HomeScreen(uiState = mainViewModel.uiState)
+                            HomeScreen(mainViewModel)
                         }
                     }
                 }

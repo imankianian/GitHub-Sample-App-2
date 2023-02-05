@@ -13,13 +13,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.samplegithubapp.R
+import com.example.samplegithubapp.UiState
 import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun UserProfile(gitHubUser: GitHubUser) {
+fun UserProfile(uiState: StateFlow<UiState>) {
+    when (val state = uiState.collectAsStateWithLifecycle().value) {
+        is UiState.Loading -> {
+
+        }
+        is UiState.Success<*> -> {
+            Profile(gitHubUser = state.data as GitHubUser)
+        }
+        is UiState.Error -> {
+
+        }
+    }
+}
+
+@Composable
+fun Profile(gitHubUser: GitHubUser) {
     Column(modifier = padding20) {
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 20.dp)) {
@@ -137,16 +155,4 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
             }
         }
     }
-}
-
-private val profileFontSize = 15.sp
-private val size5 = Modifier.size(5.dp)
-private val size10 = Modifier.size(10.dp)
-private val size22 = Modifier.size(22.dp)
-private val size25 = Modifier.size(25.dp)
-private val padding20 = Modifier.padding(20.dp)
-
-@Composable
-private fun Spacer5() {
-    Spacer(modifier = size5)
 }

@@ -7,38 +7,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.samplegithubapp.R
 import com.example.samplegithubapp.TabItem
-import com.example.samplegithubapp.UiState
-import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.ui.viewmodel.MainViewModel
 import com.google.accompanist.pager.*
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(uiState: StateFlow<UiState>) {
-    when (val state = uiState.collectAsStateWithLifecycle().value) {
-        is UiState.Loading -> {
-
-        }
-        is UiState.Success<*> -> {
-            Pager(gitHubUser = state.data as GitHubUser)
-        }
-        is UiState.Error -> {
-
-        }
-    }
+fun HomeScreen(viewModel: MainViewModel) {
+    Pager(viewModel = viewModel)
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Pager(gitHubUser: GitHubUser) {
+fun Pager(viewModel: MainViewModel) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     val tabs = listOf(
-        TabItem("Profile", R.drawable.ic_user) { UserProfile(gitHubUser = gitHubUser) },
-        TabItem("Repos", R.drawable.ic_inventory) { UserRepo() }
+        TabItem("Profile", R.drawable.ic_user) { UserProfile(viewModel.uiState) },
+        TabItem("Repos", R.drawable.ic_inventory) { UserRepo(viewModel.reposState) }
     )
     Column {
         TabRow(
