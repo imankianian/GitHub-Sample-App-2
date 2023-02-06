@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
 
     suspend fun addUser(user: LocalGitHubUser)
-    fun getUser(login: String): Flow<LocalGitHubUser>
+    fun getUser(login: String): Flow<LocalGitHubUser?>
 }

@@ -14,5 +14,5 @@ interface UserDao {
     suspend fun addUser(user: LocalGitHubUser)
 
     @Query("SELECT * FROM users WHERE login = :login")
-    fun getUser(login: String): Flow<LocalGitHubUser>
+    fun getUser(login: String): Flow<LocalGitHubUser?>
 }
