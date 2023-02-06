@@ -18,7 +18,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.samplegithubapp.R
 import com.example.samplegithubapp.UiState
-import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubUser
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -28,7 +28,7 @@ fun UserProfile(uiState: StateFlow<UiState>) {
 
         }
         is UiState.Success<*> -> {
-            Profile(gitHubUser = state.data as GitHubUser)
+            Profile(remoteGitHubUser = state.data as RemoteGitHubUser)
         }
         is UiState.Error -> {
 
@@ -37,12 +37,12 @@ fun UserProfile(uiState: StateFlow<UiState>) {
 }
 
 @Composable
-fun Profile(gitHubUser: GitHubUser) {
+fun Profile(remoteGitHubUser: RemoteGitHubUser) {
     Column(modifier = padding20) {
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 20.dp)) {
             AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(gitHubUser.avatarUrl)
+                .data(remoteGitHubUser.avatarUrl)
                 .crossfade(true)
                 .build(),
                 contentDescription = "user avatar",
@@ -51,26 +51,26 @@ fun Profile(gitHubUser: GitHubUser) {
                     .clip(CircleShape))
             Spacer(modifier = size10)
             Column {
-                gitHubUser.name?.let {
-                    Text(text = gitHubUser.name,
+                remoteGitHubUser.name?.let {
+                    Text(text = remoteGitHubUser.name,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold)
                 }
-                Text(text = gitHubUser.login,
+                Text(text = remoteGitHubUser.login,
                     fontSize = 25.sp)
             }
         }
         Spacer(modifier = Modifier.size(30.dp))
-        ProfileInfo(gitHubUser)
+        ProfileInfo(remoteGitHubUser)
     }
 }
 
 @Composable
-fun ProfileInfo(gitHubUser: GitHubUser) {
+fun ProfileInfo(remoteGitHubUser: RemoteGitHubUser) {
     Row {
         Spacer(modifier = size10)
         Column {
-            gitHubUser.company?.let {
+            remoteGitHubUser.company?.let {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_company),
@@ -84,7 +84,7 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
                 }
             }
             Spacer5()
-            gitHubUser.location?.let {
+            remoteGitHubUser.location?.let {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_location),
@@ -96,7 +96,7 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
                 }
             }
             Spacer5()
-            gitHubUser.email?.let {
+            remoteGitHubUser.email?.let {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_email),
@@ -109,7 +109,7 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
                 }
             }
             Spacer5()
-            gitHubUser.blog?.let {
+            remoteGitHubUser.blog?.let {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_blog),
@@ -130,7 +130,7 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
                 )
                 Spacer5()
                 Text(
-                    text = gitHubUser.followers.toString(),
+                    text = remoteGitHubUser.followers.toString(),
                     fontSize = profileFontSize,
                     fontWeight = FontWeight.Bold
                 )
@@ -144,7 +144,7 @@ fun ProfileInfo(gitHubUser: GitHubUser) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = gitHubUser.following.toString(),
+                    text = remoteGitHubUser.following.toString(),
                     fontSize = profileFontSize,
                     fontWeight = FontWeight.Bold
                 )

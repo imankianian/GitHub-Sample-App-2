@@ -1,8 +1,6 @@
 package com.example.samplegithubapp
 
 import androidx.compose.runtime.Composable
-import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
-import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 
 sealed interface NetworkResult {
     data class Success<T: Any>(val data: T): NetworkResult

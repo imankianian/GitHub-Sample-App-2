@@ -2,7 +2,7 @@ package com.example.samplegithubapp.data.datasource.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class GitHubUser(
+data class RemoteGitHubUser(
     val id: Int,
     val login: String,
     val name: String?,

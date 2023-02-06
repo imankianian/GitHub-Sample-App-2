@@ -3,7 +3,7 @@ package com.example.samplegithubapp.data.repository
 import com.example.samplegithubapp.NetworkResult
 import com.example.samplegithubapp.RepositoryResult
 import com.example.samplegithubapp.data.datasource.remote.RemoteDataSource
-import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubUser
 import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 import com.example.samplegithubapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,7 +16,7 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
     override suspend fun getUserProfile(login: String) = withContext(dispatcher) {
         when (val result = remoteDataSource.getUserProfile(login)) {
             is NetworkResult.Success<*> -> {
-                return@withContext RepositoryResult.Success(result.data as GitHubUser)
+                return@withContext RepositoryResult.Success(result.data as RemoteGitHubUser)
             }
             is NetworkResult.Error -> {
                 return@withContext RepositoryResult.Error("${result.code}, ${result.message}")

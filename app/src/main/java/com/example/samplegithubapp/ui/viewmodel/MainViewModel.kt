@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samplegithubapp.UiState
 import com.example.samplegithubapp.RepositoryResult
-import com.example.samplegithubapp.data.datasource.remote.model.GitHubUser
+import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubUser
 import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 import com.example.samplegithubapp.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
         viewModelScope.launch {
             when (val result = repository.getUserProfile(login = "evanphx")) {
                 is RepositoryResult.Success<*> -> {
-                    _uiState.value = UiState.Success(result.data as GitHubUser)
+                    _uiState.value = UiState.Success(result.data as RemoteGitHubUser)
                 }
                 is RepositoryResult.Error -> {
                     _uiState.value = UiState.Error(result.message)

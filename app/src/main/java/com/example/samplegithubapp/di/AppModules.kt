@@ -1,5 +1,8 @@
 package com.example.samplegithubapp.di
 
+import android.app.Application
+import androidx.room.Room
+import com.example.samplegithubapp.data.datasource.local.db.GitHubDatabase
 import com.example.samplegithubapp.data.datasource.remote.service.GitHubApi
 import dagger.Module
 import dagger.Provides
@@ -27,4 +30,10 @@ class AppModules {
     @Provides
     @IoDispatcher
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    fun provideGitHubDatabase(application: Application): GitHubDatabase = Room
+        .databaseBuilder(application, GitHubDatabase::class.java, "github_database")
+        .build()
 }
