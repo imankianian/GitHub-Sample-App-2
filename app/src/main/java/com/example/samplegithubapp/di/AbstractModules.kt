@@ -1,5 +1,7 @@
 package com.example.samplegithubapp.di
 
+import com.example.samplegithubapp.data.datasource.local.LocalDataSource
+import com.example.samplegithubapp.data.datasource.local.LocalDataSourceImpl
 import com.example.samplegithubapp.data.datasource.remote.RemoteDataSource
 import com.example.samplegithubapp.data.datasource.remote.RemoteDataSourceImpl
 import com.example.samplegithubapp.data.repository.Repository
@@ -21,4 +23,8 @@ abstract class AbstractModules {
     @Binds
     @Singleton
     abstract fun bindRepository(repositoryImpl: RepositoryImpl): Repository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalDataSource(localDataSourceImpl: LocalDataSourceImpl): LocalDataSource
 }
