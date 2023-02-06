@@ -4,6 +4,7 @@ import com.example.samplegithubapp.data.datasource.local.db.GitHubDatabase
 import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubUser
 import com.example.samplegithubapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,5 +17,5 @@ class LocalDataSourceImpl @Inject constructor(private val gitHubDatabase: GitHub
         }
     }
 
-    override fun getUser(login: String) = gitHubDatabase.userDao.getUser(login)
+    override fun getUser(login: String) = gitHubDatabase.userDao.getUser(login).flowOn(dispatcher)
 }

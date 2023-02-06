@@ -9,6 +9,7 @@ import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubUser
 import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 import com.example.samplegithubapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -34,7 +35,7 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
         }
     }
 
-    override fun getUserProfile(login: String) = localDataSource.getUser(login)
+    override fun getUserProfile(login: String) = localDataSource.getUser(login).flowOn(dispatcher)
 
 
     override suspend fun getUserRepos(login: String) = withContext(dispatcher) {
