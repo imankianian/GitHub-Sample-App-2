@@ -3,12 +3,9 @@ package com.example.samplegithubapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samplegithubapp.UiState
-import com.example.samplegithubapp.RepositoryResult
-import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
 import com.example.samplegithubapp.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +20,7 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
 
     init {
         loadUserProfile()
+        loadUserRepos()
         getUserProfile()
         getUserRepos()
     }
@@ -30,6 +28,12 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
     private fun loadUserProfile() {
         viewModelScope.launch {
             repository.loadUserProfile("evanphx")
+        }
+    }
+
+    private fun loadUserRepos() {
+        viewModelScope.launch {
+            repository.loadUserRepos("evanphx")
         }
     }
 
@@ -45,13 +49,8 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
 
     private fun getUserRepos() {
         viewModelScope.launch {
-            when (val result = repository.getUserRepos(login = "evanphx")) {
-                is RepositoryResult.Success<*> -> {
-                    _reposState.value = UiState.Success(result.data as List<RemoteGitHubRepo>)
-                }
-                is RepositoryResult.Error -> {
-                    _reposState.value = UiState.Error(result.message)
-                }
+            repository.getRepos().collect { repos ->
+                _reposState.value = UiState.Success(repos)
             }
         }
     }

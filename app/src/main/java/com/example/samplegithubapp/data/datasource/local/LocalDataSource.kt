@@ -9,5 +9,5 @@ interface LocalDataSource {
     suspend fun addUser(user: LocalGitHubUser)
     fun getUser(login: String): Flow<LocalGitHubUser?>
     suspend fun addRepos(repos: List<LocalGitHubRepo>)
-    fun getRepos(): Flow<LocalGitHubRepo?>
+    fun getRepos(): Flow<List<LocalGitHubRepo>>
 }

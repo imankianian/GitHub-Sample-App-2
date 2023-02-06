@@ -1,8 +1,9 @@
 package com.example.samplegithubapp.data.repository
 
+import android.util.Log
 import com.example.samplegithubapp.NetworkResult
-import com.example.samplegithubapp.RepositoryResult
 import com.example.samplegithubapp.data.datasource.local.LocalDataSource
+import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubRepo
 import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubUser
 import com.example.samplegithubapp.data.datasource.remote.RemoteDataSource
 import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubUser
@@ -37,18 +38,24 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
 
     override fun getUserProfile(login: String) = localDataSource.getUser(login).flowOn(dispatcher)
 
+    override suspend fun loadUserRepos(login: String) {
+        withContext(dispatcher) {
+            when (val result = remoteDataSource.getUserRepos(login)) {
+                is NetworkResult.Success<*> -> {
+                    val remoteRepos = result.data as List<RemoteGitHubRepo>
+                    val localRepos = remoteRepos.map { remote ->
+                        Log.d("GGG", remote.id.toString())
+                        LocalGitHubRepo(remote.id, remote.name, remote.lastUpdate, remote.stars,
+                            remote.language)
+                    }
+                    localDataSource.addRepos(localRepos)
+                }
+                else -> {
 
-    override suspend fun getUserRepos(login: String) = withContext(dispatcher) {
-        when (val result = remoteDataSource.getUserRepos(login)) {
-            is NetworkResult.Success<*> -> {
-                return@withContext RepositoryResult.Success(result.data as List<RemoteGitHubRepo>)
-            }
-            is NetworkResult.Error -> {
-                return@withContext RepositoryResult.Error("${result.code}, ${result.message}")
-            }
-            is NetworkResult.Failure -> {
-                return@withContext RepositoryResult.Error(result.message)
+                }
             }
         }
     }
+
+    override fun getRepos() = localDataSource.getRepos().flowOn(dispatcher)
 }

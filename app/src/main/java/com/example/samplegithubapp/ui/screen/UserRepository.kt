@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.samplegithubapp.R
 import com.example.samplegithubapp.UiState
-import com.example.samplegithubapp.data.datasource.remote.model.RemoteGitHubRepo
+import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubRepo
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -27,7 +27,7 @@ fun UserRepo(reposState: StateFlow<UiState>) {
 
         }
         is UiState.Success<*> -> {
-            ReposListScreen(repos = state.data as List<RemoteGitHubRepo>)
+            ReposListScreen(repos = state.data as List<LocalGitHubRepo>)
         }
         is UiState.Error -> {
 
@@ -36,7 +36,7 @@ fun UserRepo(reposState: StateFlow<UiState>) {
 }
 
 @Composable
-fun ReposListScreen(repos: List<RemoteGitHubRepo>) {
+fun ReposListScreen(repos: List<LocalGitHubRepo>) {
     LazyColumn(modifier = Modifier.background(Color.White)) {
         items(repos) { repo ->
             Spacer15()
@@ -51,7 +51,7 @@ fun ReposListScreen(repos: List<RemoteGitHubRepo>) {
 }
 
 @Composable
-fun RepoCard(repo: RemoteGitHubRepo) {
+fun RepoCard(repo: LocalGitHubRepo) {
     Card {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -63,7 +63,7 @@ fun RepoCard(repo: RemoteGitHubRepo) {
 }
 
 @Composable
-fun DisplayRepo(repo: RemoteGitHubRepo) {
+fun DisplayRepo(repo: LocalGitHubRepo) {
     Column {
         RepoName(name = repo.name)
         RepoUpdateDate(date = repo.lastUpdate)
