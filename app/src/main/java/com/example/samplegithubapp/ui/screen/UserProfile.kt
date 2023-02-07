@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun UserProfile(uiState: StateFlow<UiState>) {
     when (val state = uiState.collectAsStateWithLifecycle().value) {
         is UiState.Loading -> {
-
+            Loading()
         }
         is UiState.Success<*> -> {
             Profile(user = state.data as LocalGitHubUser)

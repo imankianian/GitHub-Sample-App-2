@@ -49,7 +49,7 @@ fun Bookmarks(reposState: StateFlow<UiState>,
 fun DisplayBookmarks(reposState: StateFlow<UiState>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
     when (val state = reposState.collectAsStateWithLifecycle().value) {
         is UiState.Loading -> {
-
+            Loading()
         }
         is UiState.Success<*> -> {
             ReposListScreen(repos = (state.data as List<LocalGitHubRepo>).filter {

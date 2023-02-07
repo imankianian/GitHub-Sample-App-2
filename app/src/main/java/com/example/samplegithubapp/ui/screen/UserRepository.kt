@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun UserRepo(reposState: StateFlow<UiState>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
     when (val state = reposState.collectAsStateWithLifecycle().value) {
         is UiState.Loading -> {
-
+            Loading()
         }
         is UiState.Success<*> -> {
             ReposListScreen(repos = state.data as List<LocalGitHubRepo>, onBookMarkClicked)
@@ -38,7 +38,9 @@ fun UserRepo(reposState: StateFlow<UiState>, onBookMarkClicked: (repoId: Int, is
 
 @Composable
 fun ReposListScreen(repos: List<LocalGitHubRepo>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
-    LazyColumn(modifier = Modifier.background(Color.White).fillMaxSize()) {
+    LazyColumn(modifier = Modifier
+        .background(Color.White)
+        .fillMaxSize()) {
         items(repos) { repo ->
             Spacer15()
             RepoCard(repo, onBookMarkClicked)

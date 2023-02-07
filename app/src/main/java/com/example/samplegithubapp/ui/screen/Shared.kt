@@ -2,9 +2,11 @@ package com.example.samplegithubapp.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -44,4 +46,14 @@ fun Spacer15() {
 fun lazyColumnDivider() {
     Divider(color = MaterialTheme.colorScheme.onSurface.copy(0.1f),
         modifier = lazyColumnModifier)
+}
+
+@Composable
+fun Loading() {
+    Column(verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator(modifier = Modifier.size(30.dp),
+        color = Color.Gray)
+    }
 }
