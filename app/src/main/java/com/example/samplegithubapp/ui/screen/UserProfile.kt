@@ -71,64 +71,72 @@ fun ProfileInfo(user: LocalGitHubUser) {
         Spacer(modifier = size10)
         Column {
             user.company?.let {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_company),
-                        modifier = size22,
-                        contentDescription = "company icon"
-                    )
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_company),
+                            modifier = size22,
+                            contentDescription = "company icon"
+                        )
+                        Spacer5()
+                        Text(text = it,
+                            fontSize = profileFontSize,
+                            fontWeight = FontWeight.Bold)
+                    }
                     Spacer5()
-                    Text(text = it,
-                        fontSize = profileFontSize,
-                        fontWeight = FontWeight.Bold)
                 }
             }
-            Spacer5()
             user.location?.let {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_location),
-                        modifier = size22,
-                        contentDescription = "location icon"
-                    )
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_location),
+                            modifier = size22,
+                            contentDescription = "location icon"
+                        )
+                        Spacer5()
+                        Text(text = it, fontSize = profileFontSize)
+                    }
                     Spacer5()
-                    Text(text = it, fontSize = profileFontSize)
                 }
             }
-            Spacer5()
             user.email?.let {
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_email),
-                        modifier = size22,
-                        contentDescription = "email icon"
-                    )
+                Column {
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_email),
+                            modifier = size22,
+                            contentDescription = "email icon"
+                        )
+                        Spacer5()
+                        Text(text = it,
+                            fontSize = profileFontSize)
+                    }
                     Spacer5()
-                    Text(text = it,
-                        fontSize = profileFontSize)
                 }
             }
-            Spacer5()
             user.blog?.let {
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_blog),
-                        modifier = size22,
-                        contentDescription = "blog icon"
-                    )
+                Column {
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_blog),
+                            modifier = size22,
+                            contentDescription = "blog icon"
+                        )
+                        Spacer5()
+                        Text(text = it,
+                            fontSize = profileFontSize)
+                    }
                     Spacer5()
-                    Text(text = it,
-                        fontSize = profileFontSize)
                 }
             }
-            Spacer5()
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_people),
                     modifier = size25,
                     contentDescription = "followers/following icon"
                 )
-                Spacer5()
+                Spacer(modifier = Modifier.size(3.dp))
                 Text(
                     text = user.followers.toString(),
                     fontSize = profileFontSize,

@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val profileFontSize = 15.sp
+val profileFontSize = 16.sp
 val size5 = Modifier.size(5.dp)
 val size10 = Modifier.size(10.dp)
 val size15 = Modifier.size(15.dp)
