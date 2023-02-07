@@ -38,7 +38,7 @@ fun UserRepo(reposState: StateFlow<UiState>, onBookMarkClicked: (repoId: Int, is
 
 @Composable
 fun ReposListScreen(repos: List<LocalGitHubRepo>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
-    LazyColumn(modifier = Modifier.background(Color.White)) {
+    LazyColumn(modifier = Modifier.background(Color.White).fillMaxSize()) {
         items(repos) { repo ->
             Spacer15()
             RepoCard(repo, onBookMarkClicked)

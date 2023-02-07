@@ -38,7 +38,7 @@ fun UserProfile(uiState: StateFlow<UiState>) {
 
 @Composable
 fun Profile(user: LocalGitHubUser) {
-    Column(modifier = padding20) {
+    Column(modifier = padding20.fillMaxSize()) {
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 20.dp)) {
             AsyncImage(model = ImageRequest.Builder(LocalContext.current)
