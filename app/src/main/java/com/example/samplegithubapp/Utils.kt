@@ -23,6 +23,7 @@ sealed interface UiState {
 
 sealed class Routes(val route: String) {
     object Home: Routes("home")
+    object Bookmarks: Routes("bookmarks")
 }
 
 data class TabItem(

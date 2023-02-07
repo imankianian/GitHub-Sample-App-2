@@ -2,6 +2,7 @@ package com.example.samplegithubapp.ui.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(viewModel: MainViewModel) {
+fun HomeScreen(viewModel: MainViewModel, onBookmarkClicked: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -32,7 +33,10 @@ fun HomeScreen(viewModel: MainViewModel) {
                             modifier = Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_bookmark_menu),
                             contentDescription = "bookmark icon",
-                            modifier = Modifier.padding(end = 10.dp))
+                            modifier = Modifier.padding(end = 10.dp)
+                                .clickable {
+                                    onBookmarkClicked()
+                                })
                     }
                 },
                 backgroundColor = Color.Black,
