@@ -1,9 +1,7 @@
 package com.example.samplegithubapp.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.samplegithubapp.TAG
 import com.example.samplegithubapp.UiState
 import com.example.samplegithubapp.convert
 import com.example.samplegithubapp.data.repository.Repository
@@ -22,41 +20,34 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
     val reposState: StateFlow<UiState> = _reposState
 
     init {
-        loadUserProfile()
-        loadUserRepos()
-        getUserProfile()
-        getUserRepos()
+        updateRepository()
+        getUserData()
     }
 
-    private fun loadUserProfile() {
+    private fun updateRepository() {
         viewModelScope.launch {
-            repository.loadUserProfile("evanphx")
-        }
-    }
-
-    private fun loadUserRepos() {
-        viewModelScope.launch {
-            repository.loadUserRepos("evanphx")
-        }
-    }
-
-    private fun getUserProfile() {
-        viewModelScope.launch {
-            repository.getUserProfile("evanphx").collect { localGitHubUser ->
-                localGitHubUser?.let {
-                    _uiState.value = UiState.Success(localGitHubUser)
-                }
+            launch {
+                repository.loadUserProfile("evanphx")
+            }
+            launch {
+                repository.loadUserRepos("evanphx")
             }
         }
     }
 
-    private fun getUserRepos() {
+    private fun getUserData() {
         viewModelScope.launch {
-            repository.getRepos().collect { repos ->
-                repos.forEach {
-                    Log.d(TAG, "MainViewModel repos: ${it.id}")
+            launch {
+                repository.getUserProfile("evanphx").collect { localGitHubUser ->
+                    localGitHubUser?.let {
+                        _uiState.value = UiState.Success(localGitHubUser)
+                    }
                 }
-                _reposState.value = UiState.Success(repos.convert())
+            }
+            launch {
+                repository.getRepos().collect { repos ->
+                    _reposState.value = UiState.Success(repos.convert())
+                }
             }
         }
     }
