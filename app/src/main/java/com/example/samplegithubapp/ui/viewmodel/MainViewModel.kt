@@ -46,7 +46,9 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
             }
             launch {
                 repository.getRepos().collect { repos ->
-                    _reposState.value = UiState.Success(repos.convert())
+                    if (repos.isNotEmpty()) {
+                        _reposState.value = UiState.Success(repos.convert())
+                    }
                 }
             }
         }
