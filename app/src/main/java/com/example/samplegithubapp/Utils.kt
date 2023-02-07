@@ -2,6 +2,8 @@ package com.example.samplegithubapp
 
 import androidx.compose.runtime.Composable
 
+const val TAG = "SGA ===>"
+
 sealed interface NetworkResult {
     data class Success<T: Any>(val data: T): NetworkResult
     data class Error(val code: Int?, val message: String?): NetworkResult

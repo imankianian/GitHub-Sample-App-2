@@ -10,4 +10,5 @@ interface Repository {
     fun getUserProfile(login: String): Flow<LocalGitHubUser?>
     suspend fun loadUserRepos(login: String)
     fun getRepos(): Flow<List<LocalGitHubRepo>>
+    suspend fun updateRepo(id: Int, isFavorite: Boolean)
 }

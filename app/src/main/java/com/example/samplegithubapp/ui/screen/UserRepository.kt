@@ -3,6 +3,7 @@ package com.example.samplegithubapp.ui.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,13 +22,13 @@ import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubRepo
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun UserRepo(reposState: StateFlow<UiState>) {
+fun UserRepo(reposState: StateFlow<UiState>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
     when (val state = reposState.collectAsStateWithLifecycle().value) {
         is UiState.Loading -> {
 
         }
         is UiState.Success<*> -> {
-            ReposListScreen(repos = state.data as List<LocalGitHubRepo>)
+            ReposListScreen(repos = state.data as List<LocalGitHubRepo>, onBookMarkClicked)
         }
         is UiState.Error -> {
 
@@ -36,43 +37,64 @@ fun UserRepo(reposState: StateFlow<UiState>) {
 }
 
 @Composable
-fun ReposListScreen(repos: List<LocalGitHubRepo>) {
+fun ReposListScreen(repos: List<LocalGitHubRepo>, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
     LazyColumn(modifier = Modifier.background(Color.White)) {
         items(repos) { repo ->
             Spacer15()
-            RepoCard(repo = repo)
+            RepoCard(repo, onBookMarkClicked)
             Spacer15()
-            Divider(color = MaterialTheme.colorScheme.onSurface.copy(0.1f),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp))
+            lazyColumnDivider()
         }
     }
 }
 
 @Composable
-fun RepoCard(repo: LocalGitHubRepo) {
+fun RepoCard(repo: LocalGitHubRepo, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
     Card {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)) {
-            Spacer(modifier = Modifier.size(20.dp))
-            DisplayRepo(repo = repo)
+        Row(modifier = cardRowModifier) {
+            Spacer10()
+            DisplayRepo(repo, onBookMarkClicked)
         }
     }
 }
 
 @Composable
-fun DisplayRepo(repo: LocalGitHubRepo) {
-    Column {
-        RepoName(name = repo.name)
-        RepoUpdateDate(date = repo.lastUpdate)
-        Spacer5()
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            RepoStar(count = repo.stars)
-            Spacer15()
-            RepoLanguage(language = repo.language ?: "Unknown")
+fun DisplayRepo(repo: LocalGitHubRepo, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
+    Row {
+        Column(modifier = Modifier.weight(1f)) {
+            RepoName(name = repo.name)
+            RepoUpdateDate(date = repo.lastUpdate)
+            Spacer5()
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RepoStar(count = repo.stars)
+                Spacer15()
+                RepoLanguage(language = repo.language ?: "Unknown")
+            }
         }
+        BookmarkImage(repo = repo, onBookMarkClicked = onBookMarkClicked)
+    }
+}
+
+@Composable
+fun BookmarkImage(repo: LocalGitHubRepo, onBookMarkClicked: (repoId: Int, isFavorite: Boolean) -> Unit) {
+    if (repo.isFavorite) {
+        Image(painter = painterResource(id = R.drawable.ic_bookmarked),
+            contentDescription = "bookmarked icon",
+            modifier = Modifier
+                .size(40.dp)
+                .padding(end = 10.dp)
+                .clickable {
+                    onBookMarkClicked(repo.id, !repo.isFavorite)
+                })
+    } else {
+        Image(painter = painterResource(id = R.drawable.ic_not_bookmarked),
+            contentDescription = "not_bookmarked icon",
+            modifier = Modifier
+                .size(40.dp)
+                .padding(end = 10.dp)
+                .clickable {
+                    onBookMarkClicked(repo.id, !repo.isFavorite)
+                })
     }
 }
 

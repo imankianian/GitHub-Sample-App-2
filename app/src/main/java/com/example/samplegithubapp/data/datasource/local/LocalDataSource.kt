@@ -10,4 +10,5 @@ interface LocalDataSource {
     fun getUser(login: String): Flow<LocalGitHubUser?>
     suspend fun addRepos(repos: List<LocalGitHubRepo>)
     fun getRepos(): Flow<List<LocalGitHubRepo>>
+    suspend fun updateRepo(id:Int, isFavorite: Boolean)
 }

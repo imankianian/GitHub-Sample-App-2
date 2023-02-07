@@ -25,7 +25,9 @@ fun Pager(viewModel: MainViewModel) {
     val scope = rememberCoroutineScope()
     val tabs = listOf(
         TabItem("Profile", R.drawable.ic_user) { UserProfile(viewModel.uiState) },
-        TabItem("Repos", R.drawable.ic_inventory) { UserRepo(viewModel.reposState) }
+        TabItem("Repos", R.drawable.ic_inventory) { UserRepo(viewModel.reposState) {
+            repoId, isFavorite -> viewModel.toggleBookmark(repoId = repoId, isFavorite = isFavorite)
+        } }
     )
     Column {
         TabRow(

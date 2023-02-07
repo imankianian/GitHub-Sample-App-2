@@ -13,5 +13,5 @@ data class LocalGitHubRepo(
     @ColumnInfo(name = "updated_at") val lastUpdate: String,
     @ColumnInfo(name ="stargazers_count") val stars: Int,
     val language: String?,
-    val isFavorite: Boolean = false
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false
 )

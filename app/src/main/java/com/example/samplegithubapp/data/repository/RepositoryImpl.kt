@@ -1,6 +1,5 @@
 package com.example.samplegithubapp.data.repository
 
-import android.util.Log
 import com.example.samplegithubapp.NetworkResult
 import com.example.samplegithubapp.data.datasource.local.LocalDataSource
 import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubRepo
@@ -44,7 +43,6 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
                 is NetworkResult.Success<*> -> {
                     val remoteRepos = result.data as List<RemoteGitHubRepo>
                     val localRepos = remoteRepos.map { remote ->
-                        Log.d("GGG", remote.id.toString())
                         LocalGitHubRepo(remote.id, remote.name, remote.lastUpdate, remote.stars,
                             remote.language)
                     }
@@ -58,4 +56,10 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDat
     }
 
     override fun getRepos() = localDataSource.getRepos().flowOn(dispatcher)
+
+    override suspend fun updateRepo(id: Int, isFavorite: Boolean) {
+        withContext(dispatcher) {
+            localDataSource.updateRepo(id, isFavorite)
+        }
+    }
 }
