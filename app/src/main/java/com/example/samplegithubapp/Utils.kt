@@ -1,6 +1,8 @@
 package com.example.samplegithubapp
 
 import androidx.compose.runtime.Composable
+import com.example.samplegithubapp.data.datasource.local.model.LocalGitHubRepo
+import java.text.SimpleDateFormat
 
 const val TAG = "SGA ===>"
 
@@ -31,3 +33,25 @@ data class TabItem(
     val icon: Int,
     val screen: @Composable () -> Unit
 )
+
+fun List<LocalGitHubRepo>.convert(): List<LocalGitHubRepo> = map {
+    LocalGitHubRepo(
+        id = it.id,
+        name = it.name,
+        lastUpdate = it.lastUpdate.formattedDate(),
+        stars = it.stars,
+        language = it.language,
+        isFavorite = it.isFavorite
+    )
+}
+
+fun String.formattedDate(): String {
+    return try {
+        val oldFormat = SimpleDateFormat("yyyy-mm-dd")
+        val date = oldFormat.parse(this)
+        val newFormat = SimpleDateFormat("mm-dd-yyyy")
+        newFormat.format(date)
+    } catch (e: Exception) {
+        this
+    }
+}

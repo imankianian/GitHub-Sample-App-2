@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samplegithubapp.TAG
 import com.example.samplegithubapp.UiState
+import com.example.samplegithubapp.convert
 import com.example.samplegithubapp.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -55,7 +56,7 @@ class MainViewModel @Inject constructor(private val repository: Repository): Vie
                 repos.forEach {
                     Log.d(TAG, "MainViewModel repos: ${it.id}")
                 }
-                _reposState.value = UiState.Success(repos)
+                _reposState.value = UiState.Success(repos.convert())
             }
         }
     }
