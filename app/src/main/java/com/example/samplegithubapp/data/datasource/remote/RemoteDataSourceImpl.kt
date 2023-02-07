@@ -11,8 +11,8 @@ class RemoteDataSourceImpl @Inject constructor(private val gitHubApi: GitHubApi,
     @IoDispatcher private val dispatcher: CoroutineDispatcher): RemoteDataSource {
 
     override suspend fun getUserProfile(login: String) = withContext(dispatcher) {
-        val response = gitHubApi.getUserProfile(login)
-        return@withContext try {
+        try {
+            val response = gitHubApi.getUserProfile(login)
             if (response != null && response.isSuccessful) {
                 NetworkResult.Success(response.body()!!)
             } else {
@@ -24,8 +24,8 @@ class RemoteDataSourceImpl @Inject constructor(private val gitHubApi: GitHubApi,
     }
 
     override suspend fun getUserRepos(login: String) = withContext(dispatcher) {
-        val response = gitHubApi.getUserRepos(login)
-        return@withContext try {
+        try {
+            val response = gitHubApi.getUserRepos(login)
             if (response != null && response.isSuccessful) {
                 NetworkResult.Success(response.body()!!)
             } else {
